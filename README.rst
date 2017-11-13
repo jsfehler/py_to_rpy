@@ -21,5 +21,11 @@ The file extension should be omitted.
 
 .. code-block::
 
-    python py_to_rpy file1 file2 file3
+    python py_to_rpy.py file1 file2 file3
 
+By default, new .rpy files are created next to the .py files.
+However, the dest argument can be used to place them into a new folder.
+
+.. code-block::
+
+    python py_to_rpy.py file1 file2 file3 --dest my_folder
