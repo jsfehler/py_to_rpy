@@ -5,7 +5,7 @@ from ..py_to_rpy import py_to_rpy
 
 
 def test_single_file(request):
-    """Ensure the result matches the pre-cooked file."""
+    """Ensure the result of transpiling matches the pre-cooked file."""
     # Cleanup
     def fin():
         os.remove('dummy_file.rpy')
@@ -15,6 +15,7 @@ def test_single_file(request):
     # Start test
     py_to_rpy('dummy_file')
 
+    # The newly created .rpy file should match the expected file
     with open('expected_dummy_file.rpy') as expected_rpy_file:
         with open('dummy_file.rpy') as rpy_file:
             f1 = expected_rpy_file.read()
@@ -35,6 +36,7 @@ def test_dest_option_new_folder(request):
     # Start test
     py_to_rpy('dummy_file', dest='dummy_folder')
 
+    # The newly created folder should have the newly created file inside it
     assert ['dummy_file.rpy'] == os.listdir('dummy_folder')
 
 
@@ -51,4 +53,5 @@ def test_dest_option_existing_folder(request):
     # Start test
     py_to_rpy('dummy_file', dest='existing_dummy_folder')
 
+    # The existing folder should have the  newly created file inside it
     assert ['dummy_file.rpy'] == os.listdir('existing_dummy_folder')
