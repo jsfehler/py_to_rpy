@@ -6,7 +6,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("files", help="List of files to convert", nargs="+")
 parser.add_argument(
     "--dest",
-    help="Folder to place transpiled files into",
+    help="The folder to place transpiled files into",
     nargs="?"
 )
 
@@ -18,6 +18,9 @@ def py_to_rpy(filename, dest=None):
 
     Creates a new .rpy file with an 'init python' block.
 
+    Args:
+        dest (string): The folder to place transpiled files into.
+    
     """
     if dest:
         dest_string = "{}/".format(dest)
