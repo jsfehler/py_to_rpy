@@ -48,7 +48,7 @@ def py_to_rpy(filename, dest=None, strict=False):
             rpy_file.write("\n")
 
             for line in py_file:
-                if strict and line == "import renpy.exports as renpy":
+                if strict and line.startswith("import renpy.exports as renpy"):
                     # No need to import renpy in .rpy files
                     continue
                 elif strict and line.startswith("from renpy."):

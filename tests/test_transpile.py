@@ -37,8 +37,8 @@ def test_strict(request):
     # The newly created file should not have the renpy imports
     with open('dummy_file_with_imports.rpy') as rpy_file:
         for line in rpy_file.readlines():
-            assert '    import renpy.exports as renpy' != line
-            assert '    from renpy.ui import Action' != line
+            assert '    import renpy.exports as renpy  # NOQA' != line
+            assert '    from renpy.ui import Action  # NOQA' != line
 
 
 def test_no_strict(request):
