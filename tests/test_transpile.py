@@ -56,8 +56,8 @@ def test_no_strict(request):
     # The newly created file should still have the renpy imports
     with open('dummy_file_with_imports.rpy') as rpy_file:
         lines = rpy_file.readlines()
-        assert '    import renpy.exports as renpy' == lines[2].rstrip()
-        assert '    from renpy.ui import Action' == lines[3].rstrip()
+        assert '    import renpy.exports as renpy  # NOQA' == lines[2].rstrip()
+        assert '    from renpy.ui import Action  # NOQA' == lines[3].rstrip()
 
 
 def test_dest_option_new_folder(request):

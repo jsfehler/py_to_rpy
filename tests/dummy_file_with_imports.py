@@ -1,6 +1,6 @@
 import os
-import renpy.exports as renpy
-from renpy.ui import Action
+import renpy.exports as renpy  # NOQA
+from renpy.ui import Action  # NOQA
 
 
 def _getcwd():
