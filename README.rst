@@ -19,13 +19,33 @@ From the command line
 When called from the command line, multiple files can be specified at once, each separated by a space.
 The file extension should be omitted.
 
-.. code-block::
+.. code-block:: console
 
     python py_to_rpy.py file1 file2 file3
 
+Into a specific destination
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
 By default, new .rpy files are created next to the .py files.
-However, the dest argument can be used to place them into a new folder.
+However, the --dest argument can be used to place them into a new folder.
 
-.. code-block::
+.. code-block:: console
 
-    python py_to_rpy.py file1 file2 file3 --dest my_folder
+    python py_to_rpy.py file1 file2 file3 --dest=my_folder
+
+Strict Mode
+~~~~~~~~~~~
+    
+By default, new .rpy files will preserve renpy imports that were in the .py file. However, these imports are normally unnecessary in .rpy files.
+To strip them out, use the --strict flag.
+
+.. code-block:: console
+
+    python py_to_rpy.py file1 file2 file3 --strict
+
+The following imports are stripped: 
+
+`import renpy.exports as renpy`
+
+`from renpy.{module} import {class}`
+    

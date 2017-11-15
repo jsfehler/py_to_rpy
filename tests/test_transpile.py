@@ -23,6 +23,43 @@ def test_single_file(request):
             assert f1 == f2
 
 
+def test_strict(request):
+    """When the strict option is used, then renpy imports are skipped."""
+    # Cleanup
+    def fin():
+        os.remove('dummy_file_with_imports.rpy')
+
+    request.addfinalizer(fin)
+
+    # Start test
+    py_to_rpy('dummy_file_with_imports', strict=True)
+
+    # The newly created file should not have the renpy imports
+    with open('dummy_file_with_imports.rpy') as rpy_file:
+        for line in rpy_file.readlines():
+            assert '    import renpy.exports as renpy' != line
+            assert '    from renpy.ui import Action' != line
+
+
+def test_no_strict(request):
+    """When the strict option is not used, then renpy imports are not skipped.
+    """
+    # Cleanup
+    def fin():
+        os.remove('dummy_file_with_imports.rpy')
+
+    request.addfinalizer(fin)
+
+    # Start test
+    py_to_rpy('dummy_file_with_imports')
+
+    # The newly created file should still have the renpy imports
+    with open('dummy_file_with_imports.rpy') as rpy_file:
+        lines = rpy_file.readlines()
+        assert '    import renpy.exports as renpy' == lines[2].rstrip()
+        assert '    from renpy.ui import Action' == lines[3].rstrip()
+
+
 def test_dest_option_new_folder(request):
     """Ensure the dest option works when the taget directory does not exist.
        New files should be placed in the dest folder.
