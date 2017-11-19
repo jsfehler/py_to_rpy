@@ -2,6 +2,8 @@ import os
 import shutil
 
 from ..py_to_rpy import py_to_rpy
+from ..py_to_rpy import combine_rpy_files
+from ..py_to_rpy import remove_generated_files
 
 
 def test_single_file(request):
@@ -111,3 +113,32 @@ def test_ignore(request):
     with open('dummy_file_with_ignore.rpy') as rpy_file:
         lines = rpy_file.readlines()
         assert '    from renpy.python import RevertableList  # NOQA' == lines[2].rstrip()
+
+
+def test_minify(request):
+    # Cleanup
+    def fin():
+        os.remove('final_file.rpy')
+
+    request.addfinalizer(fin)
+
+    # Start Test
+    py_to_rpy('dummy_file')
+    py_to_rpy('dummy_file_with_ignore')
+    py_to_rpy('dummy_file_with_imports')
+
+    combine_rpy_files(
+        ['dummy_file', 'dummy_file_with_ignore', 'dummy_file_with_imports'],
+        "final_file"
+    )
+
+    remove_generated_files(
+        ['dummy_file', 'dummy_file_with_ignore', 'dummy_file_with_imports']
+    )
+
+    # The newly created .rpy file should match the expected file
+    with open('expected_combined_file.rpy') as expected_rpy_file:
+        with open('final_file.rpy') as rpy_file:
+            f1 = expected_rpy_file.read()
+            f2 = rpy_file.read()
+            assert f1 == f2

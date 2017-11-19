@@ -59,3 +59,13 @@ If there are specific lines you want strict mode to ignore, they can be specifie
     {
         "ignore": ["from renpy.python import RevertableList"]
     }
+
+Combining generated rpy files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Instead of keeping multiple generated files, the --minify argument can used to instead generate one combined file.
+--minify requires one parameter; the name desired for the combined file.
+
+.. code-block:: console
+
+    python py_to_rpy.py file1 file2 file3 --minify=filename

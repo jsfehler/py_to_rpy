@@ -17,6 +17,12 @@ parser.add_argument(
     action='store_true'
 )
 
+parser.add_argument(
+    "--minify",
+    help="Output rpy to one file instead of multiple",
+    nargs="?"
+)
+
 extra_indent = "    "
 
 
@@ -114,9 +120,52 @@ def py_to_rpy(filename, dest=None, strict=False):
                 rpy_file.write("\n")
 
 
+def combine_rpy_files(filenames, final_filename, dest=None):
+    """Combines multiple .rpy files into one.
+
+    Args:
+        filenames (list): The files to combine.
+        final_filename (string): The name for the combined file.
+        dest (string): The directory to place the file.
+    """
+    if dest:
+        dest_string = "{}/".format(dest)
+
+    else:
+        dest_string = ""
+
+    with open("{}{}.rpy".format(dest_string, final_filename), "a") as f_file:
+        for filename in filenames:
+            f_file.write("\n")
+            with open("{}{}.rpy".format(dest_string, filename), "r") as f:
+                f_file.write(f.read())
+
+
+def remove_generated_files(files, dest=None):
+    """Deletes all the generated .rpy files.
+
+    Args:
+        files (list): The files to remove.
+        dest (string): The directory the files are in.
+    """
+    if dest:
+        dest_string = "{}/".format(dest)
+
+    else:
+        dest_string = ""
+
+    for file in files:
+        os.remove("{}{}.rpy".format(dest_string, file))
+
+
 if __name__ == "__main__":
     file_list = parser.parse_args().files
     dest_dir = parser.parse_args().dest
     strict = parser.parse_args().strict
     for item in file_list:
         py_to_rpy(item, dest=dest_dir, strict=strict)
+
+    minify_filename = parser.parse_args().minify
+    if minify_filename:
+        combine_rpy_files(file_list, minify_filename, dest_dir)
+        remove_generated_files(file_list, dest_dir)
