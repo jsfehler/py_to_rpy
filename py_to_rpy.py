@@ -1,5 +1,6 @@
 import argparse
 import errno
+import json
 import os
 
 parser = argparse.ArgumentParser()
@@ -17,6 +18,15 @@ parser.add_argument(
 )
 
 extra_indent = "    "
+
+
+def __get_config():
+    """Get data from the config file."""
+    with open("py_to_rpy.json", "r") as f:
+        raw = f.read()
+        data = json.loads(raw)
+
+    return data
 
 
 def __safe_new_directory(dest):
@@ -55,6 +65,13 @@ def __is_forbidden(line):
         # .rpy files don't need renpy imports
         "from renpy."
     ]
+
+    ignore_lines = __get_config()["ignore"]
+
+    # Don't strip lines that are specifically ignored.
+    for ignore_line in ignore_lines:
+        if line.startswith(ignore_line):
+            return False
 
     for forbidden_line in forbidden_lines:
         if line.startswith(forbidden_line):

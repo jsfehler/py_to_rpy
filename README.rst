@@ -48,4 +48,14 @@ The following imports are stripped:
 `import renpy.exports as renpy`
 
 `from renpy.{module} import {class}`
-    
+
+Ignoring specific lines
+~~~~~~~~~~~~~~~~~~~~~~~
+
+If there are specific lines you want strict mode to ignore, they can be specified in py_to_rpy.json.
+
+.. code-block:: console
+
+    {
+        "ignore": ["from renpy.python import RevertableList"]
+    }

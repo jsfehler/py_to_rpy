@@ -1,0 +1,3 @@
+{
+    "ignore": ["from renpy.python import RevertableList"]
+}

@@ -92,3 +92,22 @@ def test_dest_option_existing_folder(request):
 
     # The existing folder should have the  newly created file inside it
     assert ['dummy_file.rpy'] == os.listdir('existing_dummy_folder')
+
+
+def test_ignore(request):
+    """Lines that are marked to be ignored should not be
+    stripped out by strict mode.
+    """
+    # Cleanup
+    def fin():
+        os.remove('dummy_file_with_ignore.rpy')
+
+    request.addfinalizer(fin)
+
+    # Start test
+    py_to_rpy('dummy_file_with_ignore', strict=True)
+
+    # The newly created file should not have the renpy imports
+    with open('dummy_file_with_ignore.rpy') as rpy_file:
+        lines = rpy_file.readlines()
+        assert '    from renpy.python import RevertableList  # NOQA' == lines[2].rstrip()
