@@ -3,6 +3,7 @@ import errno
 import json
 import os
 
+
 parser = argparse.ArgumentParser()
 parser.add_argument("files", help="List of files to convert", nargs="+")
 parser.add_argument(
