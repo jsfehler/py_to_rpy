@@ -1,3 +1,7 @@
 {
-    "ignore": []
+    "ignore": [],
+    "remove": [
+        "import renpy.exports as renpy",
+        "from renpy."
+    ]
 }

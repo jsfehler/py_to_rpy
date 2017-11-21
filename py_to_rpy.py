@@ -65,22 +65,16 @@ def __is_forbidden(line):
     Returns:
         True if any forbidden lines found, else False.
     """
-    forbidden_lines = [
-        # No need to import renpy in .rpy files
-        "import renpy.exports as renpy",
-        # .rpy files don't need renpy imports
-        "from renpy."
-    ]
-
-    ignore_lines = __get_config()["ignore"]
-
     # Don't strip lines that are specifically ignored.
+    ignore_lines = __get_config()["ignore"]
     for ignore_line in ignore_lines:
         if line.startswith(ignore_line):
             return False
 
-    for forbidden_line in forbidden_lines:
-        if line.startswith(forbidden_line):
+    # Strip lines that are specifically declared.
+    remove_lines = __get_config()["remove"]
+    for remove_line in remove_lines:
+        if line.startswith(remove_line):
             return True
 
     return False

@@ -43,11 +43,22 @@ To strip them out, use the --strict flag.
 
     python py_to_rpy.py file1 file2 file3 --strict
 
-The following imports are stripped: 
+The lines that are stripped are defined in py_to_rpy.json under "remove".
+
+.. code-block:: console
+
+    "remove": [
+        "import renpy.exports as renpy",
+        "from renpy."
+    ]
+
+By default, the following lines are included under remove: 
 
 `import renpy.exports as renpy`
 
-`from renpy.{module} import {class}`
+`from renpy.`
+
+The lines that are removed do not have to match exactly, they only need to start with the declared line.
 
 Ignoring specific lines
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -56,9 +67,7 @@ If there are specific lines you want strict mode to ignore, they can be specifie
 
 .. code-block:: console
 
-    {
-        "ignore": ["from renpy.python import RevertableList"]
-    }
+    "ignore": ["from renpy.python import RevertableList"]
 
 Combining generated rpy files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

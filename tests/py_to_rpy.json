@@ -1,3 +1,7 @@
 {
-    "ignore": ["from renpy.python import RevertableList"]
+    "ignore": ["from renpy.python import RevertableList"],
+    "remove": [
+        "import renpy.exports as renpy",
+        "from renpy."
+	]
 }
