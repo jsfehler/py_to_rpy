@@ -70,14 +70,16 @@ def py_to_rpy(filename, dest=None, strict=False):
 
     """
     if dest:
-        dest_string = "{}/".format(dest)
         __safe_new_directory(dest)
+        dest_string = "{}/".format(dest)
+        rpy_filename = os.path.basename(filename)
 
     else:
         dest_string = ""
+        rpy_filename = filename
 
     py_path = "{}.py".format(filename)
-    rpy_path = "{}{}.rpy".format(dest_string, filename)
+    rpy_path = "{}{}.rpy".format(dest_string, rpy_filename)
 
     with open(py_path, "r") as py_file, open(rpy_path, "w") as rpy_file:
         rpy_file.write("init python:")

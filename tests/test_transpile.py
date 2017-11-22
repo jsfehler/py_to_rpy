@@ -142,3 +142,22 @@ def test_minify(request):
             f1 = expected_rpy_file.read()
             f2 = rpy_file.read()
             assert f1 == f2
+
+
+def test_file_in_folder_to_dest(request):
+    """When the .py file is in a folder, and the dest argument is used,
+    Then the .rpy file should be in dest.
+    """
+    # Cleanup
+    def fin():
+        os.remove('dummy_dest/dummy_file_in_folder.rpy')
+        os.rmdir('dummy_dest')
+
+    request.addfinalizer(fin)
+
+    # Start Test
+    py_to_rpy(
+        'dummy_folder_with_pyfile/dummy_file_in_folder', dest='dummy_dest'
+    )
+
+    assert ['dummy_file_in_folder.rpy'] == os.listdir('dummy_dest')
