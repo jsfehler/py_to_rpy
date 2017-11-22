@@ -112,7 +112,13 @@ def combine_rpy_files(filenames, final_filename, dest=None):
     with open("{}{}.rpy".format(dest_string, final_filename), "a") as f_file:
         for filename in filenames:
             f_file.write("\n")
-            with open("{}{}.rpy".format(dest_string, filename), "r") as f:
+
+            if dest:
+                rpy_filename = os.path.basename(filename)
+            else:
+                rpy_filename = filename
+
+            with open("{}{}.rpy".format(dest_string, rpy_filename), "r") as f:
                 f_file.write(f.read())
 
 

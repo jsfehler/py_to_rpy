@@ -161,3 +161,27 @@ def test_file_in_folder_to_dest(request):
     )
 
     assert ['dummy_file_in_folder.rpy'] == os.listdir('dummy_dest')
+
+
+def test_file_in_folder_plus_minify_plus_dest(request):
+    """Minifying files in a subfolder that were saved to another dest.
+    """
+    # Cleanup
+    def fin():
+        os.remove('dummy_dest/mini_file.rpy')
+        os.rmdir('dummy_dest')
+
+    request.addfinalizer(fin)
+
+    # Start Test
+    dest_dir = 'dummy_dest'
+
+    py_to_rpy(
+        'dummy_folder_with_pyfile/dummy_file_in_folder',
+        dest=dest_dir
+    )
+
+    combine_rpy_files(['dummy_file_in_folder'], 'mini_file', dest_dir)
+    remove_generated_files(['dummy_file_in_folder'], dest_dir)
+
+    assert os.path.isfile(dest_dir + "/mini_file.rpy")
