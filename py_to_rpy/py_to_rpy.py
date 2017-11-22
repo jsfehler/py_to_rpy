@@ -136,4 +136,6 @@ def remove_generated_files(files, dest=None):
         dest_string = ""
 
     for file in files:
-        os.remove("{}{}.rpy".format(dest_string, file))
+        filename = os.path.basename(file)
+
+        os.remove("{}{}.rpy".format(dest_string, filename))

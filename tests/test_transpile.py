@@ -181,7 +181,12 @@ def test_file_in_folder_plus_minify_plus_dest(request):
         dest=dest_dir
     )
 
-    combine_rpy_files(['dummy_file_in_folder'], 'mini_file', dest_dir)
-    remove_generated_files(['dummy_file_in_folder'], dest_dir)
+    combine_rpy_files(
+        ['dummy_folder_with_pyfile/dummy_file_in_folder'],
+        'mini_file',
+        dest_dir
+    )
+    remove_generated_files(
+        ['dummy_folder_with_pyfile/dummy_file_in_folder'], dest_dir)
 
     assert os.path.isfile(dest_dir + "/mini_file.rpy")
