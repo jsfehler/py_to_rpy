@@ -15,7 +15,7 @@ def test_single_file(request):
     request.addfinalizer(fin)
 
     # Start test
-    py_to_rpy('dummy_file')
+    py_to_rpy('dummy_file.py')
 
     # The newly created .rpy file should match the expected file
     with open('expected_dummy_file.rpy') as expected_rpy_file:
@@ -34,7 +34,7 @@ def test_strict(request):
     request.addfinalizer(fin)
 
     # Start test
-    py_to_rpy('dummy_file_with_imports', strict=True)
+    py_to_rpy('dummy_file_with_imports.py', strict=True)
 
     # The newly created file should not have the renpy imports
     with open('dummy_file_with_imports.rpy') as rpy_file:
@@ -53,7 +53,7 @@ def test_no_strict(request):
     request.addfinalizer(fin)
 
     # Start test
-    py_to_rpy('dummy_file_with_imports')
+    py_to_rpy('dummy_file_with_imports.py')
 
     # The newly created file should still have the renpy imports
     with open('dummy_file_with_imports.rpy') as rpy_file:
@@ -73,7 +73,7 @@ def test_dest_option_new_folder(request):
     request.addfinalizer(fin)
 
     # Start test
-    py_to_rpy('dummy_file', dest='dummy_folder')
+    py_to_rpy('dummy_file.py', dest='dummy_folder')
 
     # The newly created folder should have the newly created file inside it
     assert ['dummy_file.rpy'] == os.listdir('dummy_folder')
@@ -90,7 +90,7 @@ def test_dest_option_existing_folder(request):
     request.addfinalizer(fin)
 
     # Start test
-    py_to_rpy('dummy_file', dest='existing_dummy_folder')
+    py_to_rpy('dummy_file.py', dest='existing_dummy_folder')
 
     # The existing folder should have the  newly created file inside it
     assert ['dummy_file.rpy'] == os.listdir('existing_dummy_folder')
@@ -107,7 +107,7 @@ def test_ignore(request):
     request.addfinalizer(fin)
 
     # Start test
-    py_to_rpy('dummy_file_with_ignore', strict=True)
+    py_to_rpy('dummy_file_with_ignore.py', strict=True)
 
     # The newly created file should not have the renpy imports
     with open('dummy_file_with_ignore.rpy') as rpy_file:
@@ -123,9 +123,9 @@ def test_minify(request):
     request.addfinalizer(fin)
 
     # Start Test
-    py_to_rpy('dummy_file')
-    py_to_rpy('dummy_file_with_ignore')
-    py_to_rpy('dummy_file_with_imports')
+    py_to_rpy('dummy_file.py')
+    py_to_rpy('dummy_file_with_ignore.py')
+    py_to_rpy('dummy_file_with_imports.py')
 
     combine_rpy_files(
         ['dummy_file', 'dummy_file_with_ignore', 'dummy_file_with_imports'],
@@ -157,7 +157,7 @@ def test_file_in_folder_to_dest(request):
 
     # Start Test
     py_to_rpy(
-        'dummy_folder_with_pyfile/dummy_file_in_folder', dest='dummy_dest'
+        'dummy_folder_with_pyfile/dummy_file_in_folder.py', dest='dummy_dest'
     )
 
     assert ['dummy_file_in_folder.rpy'] == os.listdir('dummy_dest')
@@ -177,7 +177,7 @@ def test_file_in_folder_plus_minify_plus_dest(request):
     dest_dir = 'dummy_dest'
 
     py_to_rpy(
-        'dummy_folder_with_pyfile/dummy_file_in_folder',
+        'dummy_folder_with_pyfile/dummy_file_in_folder.py',
         dest=dest_dir
     )
 

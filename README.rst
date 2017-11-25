@@ -25,13 +25,21 @@ Usage
 From the command line
 ^^^^^^^^^^^^^^^^^^^^^
 
-When called from the command line, multiple files can be specified at once, each separated by a space.
-The file extension should be omitted.
+When called from the command line, multiple paths can be specified at once, each separated by a space.
 
 .. code-block:: console
 
-    py_to_rpy file1 file2 file3
+    py_to_rpy file1.py file2.py file3.py
 
+
+File parsing uses `glob patterns <https://en.wikipedia.org/wiki/Glob_(programming)>`_, on each path, meaning:
+
+.. code-block:: console
+
+    py_to_rpy my_folder/*.py
+    
+is a valid statement, and will select all the .py files in that folder.
+    
 Into a specific destination
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
@@ -40,7 +48,7 @@ However, the --dest argument can be used to place them into a new folder.
 
 .. code-block:: console
 
-    py_to_rpy file1 file2 file3 --dest=my_folder
+    py_to_rpy file1.py file2.py file3.py --dest=my_folder
 
 Strict Mode
 ~~~~~~~~~~~
@@ -50,7 +58,7 @@ To strip them out, use the --strict flag.
 
 .. code-block:: console
 
-    py_to_rpy file1 file2 file3 --strict
+    py_to_rpy file1.py file2.py file3.py --strict
 
 The lines that are stripped are defined in py_to_rpy.json under "remove".
 
@@ -86,4 +94,4 @@ Instead of keeping multiple generated files, the --minify argument can used to i
 
 .. code-block:: console
 
-    py_to_rpy file1 file2 file3 --minify=filename
+    py_to_rpy file1.py file2.py file3.py --minify=filename

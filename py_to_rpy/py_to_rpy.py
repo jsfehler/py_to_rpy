@@ -69,19 +69,20 @@ def py_to_rpy(filename, dest=None, strict=False):
         strict (boolean): If true, all renpy imports are skipped.
 
     """
+    # If saving into a different destination than the origin file,
+    # build the path out of destination + the filename
     if dest:
         __safe_new_directory(dest)
         dest_string = "{}/".format(dest)
-        rpy_filename = os.path.basename(filename)
+        rpy_filename = os.path.basename(filename)[:-3]
 
     else:
         dest_string = ""
-        rpy_filename = filename
+        rpy_filename = filename[:-3]
 
-    py_path = "{}.py".format(filename)
     rpy_path = "{}{}.rpy".format(dest_string, rpy_filename)
 
-    with open(py_path, "r") as py_file, open(rpy_path, "w") as rpy_file:
+    with open(filename, "r") as py_file, open(rpy_path, "w") as rpy_file:
         rpy_file.write("init python:")
         rpy_file.write("\n")
 
@@ -103,6 +104,8 @@ def combine_rpy_files(filenames, final_filename, dest=None):
         final_filename (string): The name for the combined file.
         dest (string): The directory to place the file.
     """
+    # If saving into a different destination than the origin file,
+    # build the path out of destination + the filename
     if dest:
         dest_string = "{}/".format(dest)
 
@@ -136,6 +139,9 @@ def remove_generated_files(files, dest=None):
         dest_string = ""
 
     for file in files:
-        filename = os.path.basename(file)
+        if dest:
+            rpy_filename = os.path.basename(file)
+        else:
+            rpy_filename = file
 
-        os.remove("{}{}.rpy".format(dest_string, filename))
+        os.remove("{}{}.rpy".format(dest_string, rpy_filename))
