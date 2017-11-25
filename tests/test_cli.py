@@ -36,4 +36,4 @@ def test_cli_minify(request):
     assert 'dummy_file_1.rpy' not in dir_list
     assert 'dummy_file_2.rpy' not in dir_list
 
-    assert 'minified.rpy' in os.listdir()
+    assert 'minified.rpy' in os.listdir('.')
