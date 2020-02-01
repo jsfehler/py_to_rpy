@@ -3,5 +3,6 @@
     "remove": [
         "import renpy.exports as renpy",
         "from renpy."
-	]
+	  ],
+    "order": []
 }

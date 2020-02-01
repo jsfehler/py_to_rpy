@@ -83,8 +83,7 @@ def py_to_rpy(filename, dest=None, strict=False):
     rpy_path = "{}{}.rpy".format(dest_string, rpy_filename)
 
     with open(filename, "r") as py_file, open(rpy_path, "w") as rpy_file:
-        rpy_file.write("init python:")
-        rpy_file.write("\n")
+        rpy_file.write("init python:\n")
 
         for line in py_file:
             if strict and __is_forbidden(line):
@@ -112,8 +111,12 @@ def combine_rpy_files(filenames, final_filename, dest=None):
     else:
         dest_string = ""
 
+    ordered = __get_config()["order"]
+    unordered = [i for i in filenames if i not in ordered]
+    ordered_filenames = ordered + unordered
+
     with open("{}{}.rpy".format(dest_string, final_filename), "a") as f_file:
-        for filename in filenames:
+        for filename in ordered_filenames:
             f_file.write("\n")
 
             if dest:
