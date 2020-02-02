@@ -116,6 +116,7 @@ def combine_rpy_files(filenames, final_filename, dest=None):
     ordered_filenames = ordered + unordered
 
     with open("{}{}.rpy".format(dest_string, final_filename), "a") as f_file:
+        f_file.write("init python:\n")
         for filename in ordered_filenames:
             f_file.write("\n")
 
@@ -125,7 +126,9 @@ def combine_rpy_files(filenames, final_filename, dest=None):
                 rpy_filename = filename
 
             with open("{}{}.rpy".format(dest_string, rpy_filename), "r") as f:
-                f_file.write(f.read())
+                for line in f.readlines():
+                    if line != "init python:\n":
+                        f_file.write(line)
 
 
 def remove_generated_files(files, dest=None):
