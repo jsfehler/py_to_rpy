@@ -35,7 +35,7 @@ def __safe_new_directory(dest):
     return False
 
 
-def __is_forbidden(line):
+def _is_forbidden(line):
     """Checks if a line should be skipped.
 
     Args:
@@ -44,16 +44,18 @@ def __is_forbidden(line):
     Returns:
         True if any forbidden lines found, else False.
     """
+    processed_line = line.lstrip()
+
     # Don't strip lines that are specifically ignored.
     ignore_lines = __get_config()["ignore"]
     for ignore_line in ignore_lines:
-        if line.startswith(ignore_line):
+        if processed_line.startswith(ignore_line):
             return False
 
     # Strip lines that are specifically declared.
     remove_lines = __get_config()["remove"]
     for remove_line in remove_lines:
-        if line.startswith(remove_line):
+        if processed_line.startswith(remove_line):
             return True
 
     return False
@@ -86,7 +88,7 @@ def py_to_rpy(filename, dest=None, strict=False):
         rpy_file.write("init python:\n")
 
         for line in py_file:
-            if strict and __is_forbidden(line):
+            if strict and _is_forbidden(line):
                 continue
 
             if line.strip():  # Line has content on it
